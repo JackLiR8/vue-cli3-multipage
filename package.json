@@ -7,7 +7,8 @@
     "dev": "vue-cli-service serve",
     "start": "npm run dev",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "page:add": "node ./scripts/page-add.js"
   },
   "dependencies": {
     "core-js": "^2.6.5",
