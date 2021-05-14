@@ -7,5 +7,8 @@
   },
   "shopDetail": {
     "title": "商店详情"
+  },
+  "order": {
+    "title": "订单列表"
   }
 }
