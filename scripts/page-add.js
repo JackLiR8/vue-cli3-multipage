@@ -1,16 +1,33 @@
-/*
- * @Author: JackLiR8
- * @Date: 2021-05-14 16:20:07
- * @LastEditTime: 2021-05-14 16:22:02
- * @LastEditors: JackLiR8
- * @Description: 新建页面
+#!/usr/bin/env node
+
+/**
+ * @description 新建页面脚本
+ * @example
+ * ```bash
+ * # npm run page:add `dir` [`pageName`]
+ * 
+ * npm run page:add order orderDetail
+ * # 此命令将会在/config/page.json中添加 orderDetail 的配置
+ * # 且新增 /src/pages/order/orderDetial.vue 文件
+ * 
+ * 
+ * # 若不指定 pageName, 则默认为 pageName 和 dir 相同
+ * 
+ * npm run page:add order
+ * # 此命令将会在/config/page.json中添加 order 的配置
+ * # 且新增 /src/pages/order/order.vue 文件
+ * 
+ * ```
  */
 
 const fs = require('fs').promises
 const path = require('path')
 const chalk = require('chalk')
+const inquirer = require('inquirer')
 
 let [dir, pageName] = process.argv.slice(2, 4)
+let pageTitle = pageName
+
 if (!dir) {
   console.log(
     chalk.red('invalid args: \n')
@@ -20,7 +37,6 @@ if (!dir) {
   pageName = dir
 }
 
-
 createPage(dir, pageName)
 
 async function createPage(dir ,name) {
@@ -28,13 +44,19 @@ async function createPage(dir ,name) {
     await checkExist(name)
     await createComponent(dir, name)
 
-    console.log(chalk.green(`成功创建 page: ${name} !`))
+    console.log(
+      chalk.white.bold.bgGreen(' SUCCESS '),
+      chalk.green(`成功创建页面：${pageTitle} !`)
+    )
   } catch (err) {
-    console.error(chalk.red(`${err}\n`))
+    console.error(
+      chalk.white.bold.bgRed(' ERROR \n'),
+      chalk.red(`${err}\n`)
+    )
     // 创建不成功，需要删除json文件中的配置
     await resetJson(name)
     process.exit(1)
-  }
+  } 
 }
 
 async function checkExist(name) {
@@ -43,10 +65,17 @@ async function checkExist(name) {
     throw new Error(`同名页面(${name})已经存在`)
   }
   
-  let title = name
-  // TODO ask for title
+  const answers = await inquirer.prompt([{
+    type: 'input',
+    name: 'title',
+    message: "输入页面title: ",
+    default: function () {
+      return pageTitle
+    },
+  }])
+  if (answers.title) pageTitle = answers.title
   
-  Object.assign(pages, { [name]: { title } })
+  Object.assign(pages, { [name]: { title: pageTitle } })
   return rewritePageConfig(pages)
 }
 
