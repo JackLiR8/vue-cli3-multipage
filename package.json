@@ -11,7 +11,9 @@
     "page:add": "node ./scripts/page-add.js"
   },
   "dependencies": {
+    "chalk": "^4.1.1",
     "core-js": "^2.6.5",
+    "inquirer": "^8.0.0",
     "sg-utils": "^1.4.6",
     "vue": "^2.6.6"
   },
@@ -20,7 +22,6 @@
     "@vue/cli-plugin-eslint": "^3.5.0",
     "@vue/cli-service": "^3.5.0",
     "babel-eslint": "^10.0.1",
-    "colors-console": "^1.0.2",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
     "glob": "^7.1.3",

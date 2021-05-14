@@ -7,7 +7,7 @@
 const path = require('path');
 const fs = require('fs');
 const glob = require('glob');
-const colors = require('colors-console');
+const chalk = require('chalk')
 
 // 配置选项
 const config = {
@@ -26,7 +26,7 @@ function getPages() {
         const pageCode = path.basename(pageUrl, ext);
         // 文件名不能重复的验证（pageCode 在这里取的是文件名）
         if(pages[pageCode]){
-            console.error(colors('red', `文件名不能重复使用：${pageCode}。\n`));
+            console.error(chalk.red(`文件名不能重复使用：${pageCode}。\n`));
             process.exit(1);
         }
         // 生成入口文件

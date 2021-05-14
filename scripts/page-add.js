@@ -8,12 +8,12 @@
 
 const fs = require('fs').promises
 const path = require('path')
-const colors = require('colors-console')
+const chalk = require('chalk')
 
 let [dir, pageName] = process.argv.slice(2, 4)
 if (!dir) {
   console.log(
-    colors('red', 'invalid args: \n')
+    chalk.red('invalid args: \n')
   )
   process.exit(1)
 } else if (dir && !pageName) {
@@ -28,9 +28,9 @@ async function createPage(dir ,name) {
     await checkExist(name)
     await createComponent(dir, name)
 
-    console.log(colors('green', `成功创建 page: ${name} !`))
+    console.log(chalk.green(`成功创建 page: ${name} !`))
   } catch (err) {
-    console.error(colors('red', `${err}\n`))
+    console.error(chalk.red(`${err}\n`))
     // 创建不成功，需要删除json文件中的配置
     await resetJson(name)
     process.exit(1)
